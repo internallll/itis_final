@@ -1,32 +1,40 @@
 
-from django.contrib.auth.models import AbstractUser, PermissionsMixin
+from django.contrib.auth.models import AbstractUser
+from django.core import validators
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
 
-from manager import CustomUserManager
+from mysite import settings
+from test_site.manager import CustomUserManager
 
 
 class User(AbstractUser):
     username = None
 
-    USERNAME_FIELD = 'login'
-    REQUIRED_FIELDS = []
+    email = models.EmailField(
+        validators=[validators.validate_email],
+        unique=True,
+        blank=False,
+        default = 'example@google.com'
+    )
 
-    login = models.CharField(verbose_name='Логин', max_length=30, unique=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ()
+
+
+    is_staff = models.BooleanField(default=False)
+
+    is_active = models.BooleanField(default=True)
+
     password = models.CharField(verbose_name='Пароль', null=True)
 
-    first_name = models.CharField(verbose_name='Имя', max_length=30, null=True, blank=True)
-    last_name = models.CharField(verbose_name='Фамилия', null=True, blank=True)
+    first_name = models.CharField(verbose_name='Имя', max_length=30)
+    last_name = models.CharField(verbose_name='Фамилия', max_length=30)
     image = models.ImageField(upload_to='media', null=True, blank=True)
-    email = models.EmailField(verbose_name='Электронная почта', null=True, blank=True)
-    number_phone = models.CharField(verbose_name='Номер телефона', max_length=11, null=True, blank=True)
-    # role = models.CharField(max_length=20, verbose_name='Роль',
-    #                           choices=[('student', 'Студент'), ('administration', 'Сотрудник администрации'),
-    #                                    ('applicant', 'Абитуриент'),
-    #                                    ('struct_division', 'Структурное подразделение'),
-    #                                    ('external_expert', 'Внешний эксперт'), ('teacher', 'Преподаватель'),
-    #                                    ('employer', 'Работодатель'), ('graduate', 'Выпускник')], default='student')
-
-
+    number_phone = models.CharField(verbose_name='Номер телефона', max_length=11)
     birth_date = models.DateField(verbose_name='Дата рождения', null=True, blank=True)
     role = models.ForeignKey('Role',
                              on_delete=models.SET_NULL, null=True, blank=True)
@@ -38,7 +46,12 @@ class User(AbstractUser):
         verbose_name_plural = 'Пользователи'
 
     def __str__(self):
-        return self.login
+        return self.email
+
+    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+    def create_auth_token(sender, instance=None, created=False, **kwargs):
+        if created:
+            Token.objects.create(user=instance)
 
 
 class Role(models.Model):

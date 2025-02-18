@@ -29,7 +29,7 @@ class UserCreateAPIView(generics.CreateAPIView):
 class UserListAPIView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (IsAdminUser,)
+    permission_classes = (AllowAny,)
 
 # Опросы
 # Представление для создания опроса
@@ -77,9 +77,10 @@ class QuestionListAPIView(generics.ListAPIView):
         feedback_pk = self.kwargs.get('pk')
         return Question.objects.filter(feedback_id = feedback_pk)
 
+
 class QuestionCreate(generics.CreateAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
-    permission_classes = (IsAdminUser,
+    permission_classes = (IsAdminUser, )
 
 

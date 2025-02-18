@@ -9,7 +9,7 @@ class IsOwnerOrAdminOnly(permissions.BasePermission):
     """
 
     def has_object_permission(self, request, view, obj):
-        # Если пользователь является админом то будет доступ
+        # Если пользователь является админом, то будет доступ
 
         if request.user.is_staff:
             return True
