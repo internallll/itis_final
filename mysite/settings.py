@@ -9,8 +9,10 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
+
+from tutorial.settings import AUTH_PASSWORD_VALIDATORS
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,6 +32,24 @@ ALLOWED_HOSTS = []
 AUTH_USER_MODEL = 'test_site.User'
 # Application definition
 
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {
+            "min_length": 9,
+        },
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    },
+]
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,7 +64,8 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'drf_spectacular',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'rest_framework_simplejwt'
 ]
 
 MIDDLEWARE = [
@@ -84,7 +105,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'itis',
+        'NAME': 'itis2',
         'USER': 'postgres',
         'PASSWORD': 'admin',
         'HOST': '127.0.0.1',
@@ -111,7 +132,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'test_site.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
@@ -130,7 +150,44 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+
+
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
     ]
+}
+
+LOGGING = {
+    'version' : 1,
+    'disable_existing_loggers' : False,
+
+    'formatters': {
+        'main_format' : {
+            "format" : "{asctime} - {levelname} - {filename} - {message}",
+            "style" : "{",
+        },
+    },
+
+    'handlers' : {
+        'file': {
+            "class": "logging.FileHandler",
+            "formatter": "main_format",
+            "filename" : "main.log"
+        },
+    },
+
+    'loggers': {
+        'main' : {
+            'handlers': ['file'],
+            'level' : 'INFO',
+            'propagate' : True,
+        }
+    }
 }
 
 # Static files (CSS, JavaScript, Images)
@@ -142,3 +199,17 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES' : ('Bearer', ),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=55),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'AUTH_COOKIE': 'access_token',  # Название куки для access токена
+    'REFRESH_COOKIE': 'refresh_token',  # Название куки для refresh токена
+    'AUTH_COOKIE_SECURE': False,  # True для HTTPS
+    'AUTH_COOKIE_HTTP_ONLY': True,  # Запрет доступа к кукам через JavaScript
+    'AUTH_COOKIE_SAMESITE': 'Lax',  # Ограничение передачи куки при кросс-сайтовых запросах
+}
+

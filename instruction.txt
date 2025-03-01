@@ -1,0 +1,150 @@
+Основной Функционал
+1. Add feedback
+
+/api/feedback/ - POST
+   {"title" :"test",
+   "description":"test",
+   "receivers": [2,3]
+   }
+   user - создается автоматически (авторизированный пользователь)
+
+2. Add question
+
+/api/question/create/ - POST
+
+{ "title": "Какой твой любимый цвет?",
+  "feedback": 5,
+  "type": 1
+  }
+
+3. Add choices - Добавление вариантов ответа на вопрос
+
+/api/choices/ - POST
+
+{ "value": "Синий", - вариант ответа на вопрос
+  "question": 4
+  }
+
+4. Add done feedback - По моей логике создании записи done Feedback будет происходить при начале заполнении опроса
+
+api/done_feedback/ - POST
+
+{
+"feedback":5
+}
+   user - создается автоматически (авторизированный пользователь)
+
+5. Add answer - Само заполнение опроса, заполненными вопросами
+
+/api/answer/ - POST
+
+{
+    "done_feedback": 11,  # ID заполненного опросника
+    "question": 5,  # ID вопроса
+    "choice": 1,  # ID выбранного варианта ответа (если тип вопроса одиночный)
+    "text": "Зеленый"  # Текстовый ответ (если тип вопроса текстовый) / Необязательное поле (Нужно сделать функционал выбора choice/text в зависимости от типа вопроса)
+}
+
+{
+    "done_feedback": 11,
+    "question": 4,
+    "choice": 2
+ }
+
+
+Доп.Функционал
+
+1. CRUD система для пользователя
+     Create /api/users/<int:pk> - POST - Только админ
+     Read /api/users/list/ - GET - Только админ
+          /api/users/<int:pk>/feedback/ - GET - Просмотр всех опросников созданных, конкретным пользователем(Или админ или хозяин фидбеков)
+     Update /api/users/<int:pk> - PUT - Только админ и сам пользователь
+     Delete /api/users/<int:pk> - DELETE - Только админ и сам пользователь
+
+2. CRUD система для опроса
+    Create /api/feedback/ - POST - Только авторизированные пользователи
+    Read /api/feedback/list - GET - Только админ
+        /api/feedback/<int:pk> - GET - Просмотр какого-то конкретного опроса(Только владелец опроса или админ)
+       /api/feedback/receiver/<int:pk> - GET - Просмотр всех опросников, которые надо заполнить у какого-то пользователя
+    Update /api/feedback/<int:pk>/ - PUT - Только админ или владелец опроса
+    Delete /api/feeedback/<int:pk>/ - DELETE - Только админ или владелец опроса
+
+3. CRUD система для вопросов
+    Сreate /api/question/create/ - POST - Только авторизированные пользователи
+    Read /api/question/list/ - GET - Список всех вопрос БД (Только админ)
+    Update /api/question/<int:pk>/ - PUT - Только админ или владелец вопроса
+    Delete /api/ /api/question/<int:pk>/ - DELETE - Только админ или владелец вопроса
+
+4. CRUD система для заполненных опросников (done_feedback)
+    Create /api/done_feedback/ - POST - Только авторизированный пользователь
+    Read api/done_feedback/list/ - GET - Только админ
+        api/done_feedback/<int:pk>/ - GET - Только админ или хозяин
+    Update api/done_feedback/<int:pk>/ - PUT - Только админ или хозяин
+    Delete api/done_feedback/<int:pk>/ - DELETE - Только админ или хозяин
+
+5. CRUD Система для Answer (Заполненые ответы на вопросы с привязкой к done_feedback)
+    Create /api/answer/  - POST
+    Read /api/answer/ - GET
+    Update /api/answer/<int:pk>/ - PUT - Только хозяин или админ
+    Delete /api/answer/<int:pk>/ - DELETE - Только хозяин или админ
+
+6.CRUD Система для Choices (Варианты ответов на вопросы(Question))
+    Create /api/choices/ - POST
+    Read /api/choices/ - GET
+    Update /api/choices/<int:pk>/ - PUT
+    Delete /api/choices/<int:pk>/ - DELETE
+
+7. UI-Docs / Swagger
+    Основной сайт Swagger`a - /api/schema/swagger-ui/
+    Redoc - /api/schema/redoc
+    Скачать схему - /api/schema/
+
+
+АВТОРИЗАЦИЯ
+Были использованы такие библиотеки, как 'djoser' и 'simplejwt'
+
+Инструкция:
+    1. POST-запрос на /auth/users/
+        Пример:
+            {  "is_superuser": true,
+              "email": "user@example.com",
+              "password": "12345678",
+              "first_name": "string",
+              "last_name": "string",
+              "number_phone": "string",
+              "birth_date": "2025-02-28",
+              "role": 1
+            }
+        Пользователь зарегистрирован в системе.
+    2. POST - запрос на auth/jwt/create/
+        Пример:
+            {
+            "email": "user@example.com",
+            "password": "12345678"
+            }
+        Вывод(пример):
+        {
+        "refresh": "eyJhbGciOiJIUzI1NiIsI",
+        "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6"
+        }
+        (Длина уменьшена для удобства)
+        access - токен для входа на сайт, время валидности - 5 минут
+        refresh - токен для обновления access токена, время валидности - 1 день(будет больше)
+
+    3. Access токен используется в дальнейших целях для авторизации
+    Регистрация прошла успешна!
+
+Возможности системы авторизации:
+1. /auth/jwt/refresh/ - API для обновления access токена, использую refresh токен
+2. /auth/jwt/verify/ - API для проверки валидации токена (При верном токене выдает пустой 200 запрос)
+
+
+
+ЛОГИРОВАНИЕ
+    Формат Логирования: {asctime} - {levelname} - {filename} - {message}
+    Пример:
+        2025-02-28 22:07:11,400 - INFO - views.py - Feedback create
+
+    Нижний уровень логирования: INFO
+
+    Файл сохранения: "main.log"

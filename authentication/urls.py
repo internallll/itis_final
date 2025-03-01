@@ -1,8 +1,6 @@
-from django.urls import path
-
-from authentication.views import CustomAuthToken, RegistrationAPIView
+from django.urls import path, include, re_path
 
 urlpatterns = [
-    path('register/', RegistrationAPIView.as_view(), name='register'),
-    path('api-token-auth/', CustomAuthToken.as_view(), name='api_token_auth'),
+    re_path(r'^auth/', include('djoser.urls')),
+    re_path(r'^auth/', include('djoser.urls.jwt')),
     ]
