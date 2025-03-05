@@ -3,7 +3,7 @@ from rest_framework import permissions
 from test_site.models import Feedback
 
 
-#Класс разрешения для feedback и questions
+# Класс разрешения для feedback и questions
 class IsOwnerOrAdminOnly(permissions.BasePermission):
     """
     Object-level permission to only allow owners of an object to edit it.
@@ -20,9 +20,8 @@ class IsOwnerOrAdminOnly(permissions.BasePermission):
         return obj.user == request.user
 
 
-#Пока что на данный момент этот класс доступа для User
+# Пока что на данный момент этот класс доступа для User
 class IsSelfOrAdmin(permissions.BasePermission):
-
 
     def has_object_permission(self, request, view, obj):
         if request.user.is_staff:

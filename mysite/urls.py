@@ -15,49 +15,43 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include, re_path
+from django.urls import path, include
 from drf_spectacular.views import SpectacularSwaggerView, SpectacularRedocView, SpectacularAPIView
-from rest_framework.routers import DefaultRouter
 
-import authentication
 from test_site import views
-from test_site.views import QuestionListAPIView
-
-
-
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    #Swagger
+    # Swagger
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
 
     # Optional UI:
     path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 
-    #Login
+    # Login
     path('', include('authentication.urls')),
 
-    #User
+    # User
     path('api/users/<int:pk>/', views.UserUpdateAPIView.as_view(), name='user-update'),
     path('api/users/<int:pk>/', views.UserDeleteAPIView.as_view(), name='user-delete'),
     path('api/users/', views.UserCreateAPIView.as_view(), name='user-create'),
     path('api/users/list/', views.UserListAPIView.as_view(), name='user-list'),
-    #url для получения опросников созданных пользователем
+    # url для получения опросников созданных пользователем
     path('api/users/<int:pk>/feedback/', views.FeedBackUserFilterListAPIView.as_view()),
 
-    #Feedback
+    # Feedback
     path('api/feedback/<int:pk>/', views.FeedBackUpdateAPIView.as_view(), name='feedback-update'),
     path('api/feedback/', views.FeedBackCreateAPIView.as_view(), name='feedback-create'),
     path('api/feedback/list/', views.FeedBackListAPIView.as_view(), name='feedback-list'),
     path('api/feedback/<int:pk>/', views.FeedBackDeleteAPIView.as_view(), name='feedback-delete'),
-    #path('api/feedback/user/<int:pk>', views.FeedBackUserFilterListAPIView.as_view(), name='feedback-filter-user'),
-#представление для просмотра принимающих пользователей
+    # path('api/feedback/user/<int:pk>', views.FeedBackUserFilterListAPIView.as_view(), name='feedback-filter-user'),
+    # представление для просмотра принимающих пользователей
     path('api/feedback/receiver/<int:pk>/', views.FeedbackReceiversListAPIView.as_view(), name='feedback_receivers'),
 
-    #Questions
+    # Questions
     path('api/question/feedback/<int:pk>/', views.QuestionListFilterAPIView.as_view(), name='question-list'),
     path('api/question/create/', views.QuestionCreate.as_view(), name='question-create'),
     path('api/question/list/', views.QuestionListAPIView.as_view(), name='question-list'),
@@ -66,13 +60,13 @@ urlpatterns = [
 
 
 
-    #DoneFeedback
-    path('api/done_feedback/list/' , views.DoneFeedbackListAPIView.as_view(), name='done_feedback-list'),
+    # DoneFeedback
+    path('api/done_feedback/list/', views.DoneFeedbackListAPIView.as_view(), name='done_feedback-list'),
     path('api/done_feedback/', views.DoneFeedbackCreateAPIView.as_view(), name='done_feedback-create'),
     path('api/done_feedback/<int:pk>/', views.DoneFeedbackUpdateDeleteAPIView.as_view(), name='done_feedback-update-delete'),
 
 
-    #Answer
+    # Answer
     path('api/answer/', views.AnswerView.as_view(), name='answer-create-list'),
     path('api/answer/<int:pk>/', views.AnswerUpdateDeleteView.as_view(), name='answer-update-delete'),
 
