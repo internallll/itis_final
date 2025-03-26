@@ -1,6 +1,6 @@
 from rest_framework import permissions
 
-from test_site.models import Feedback
+from feedback.models import Feedback
 
 
 # Класс разрешения для feedback и questions

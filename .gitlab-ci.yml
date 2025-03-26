@@ -1,0 +1,19 @@
+image: python:3.12
+
+services:
+  - mysql: latest
+
+before_script:
+  - pip install -r requirements.txt
+  - python manage.py migrate
+stages:
+  - test
+  - flake8
+test:
+  stage: test
+  script:
+    - python manage.py test
+linter:
+  stage: flake8
+  script:
+    - flake8

@@ -1,42 +1,63 @@
+import logging
 
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 
-from django.contrib.auth.models import AbstractUser
-from django.core import validators
 from django.db import models
 
-from test_site.manager import CustomUserManager
+
+logger = logging.getLogger('main')
+
+
+# Менеджер для создания пользователя/суперпользователя
+class UserManager(BaseUserManager):
+    def create_user(self, email, full_name, password=None, **extra_fields):
+        try:
+            if not email:
+                raise ValueError("Email обязателен")
+            if not full_name:
+                raise ValueError("Полное имя обязательно")
+
+            email = self.normalize_email(email)
+            user = self.model(
+                email=email,
+                full_name=full_name,
+                **extra_fields
+            )
+            user.set_password(password)
+            user.save(using=self._db)
+        except Exception as e:
+            logger.error("Произошла ошибка %s", e)
+        logger.info('Create user N %s. %s - %s', user.id, user.email, user.full_name)
+        return user
+
+    def create_superuser(self, email, full_name, password, **extra_fields):
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+        return self.create_user(email, full_name, password, **extra_fields)
 
 
 class User(AbstractUser):
+    username_validator = None
     username = None
+    full_name = models.CharField(max_length=255)
+    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
+    about = models.TextField(null=True, blank=True)
+    email = models.EmailField(unique=True)
 
-    email = models.EmailField(
-        validators=[validators.validate_email],
-        unique=True,
-        blank=False,
-        default='example@google.com'
-    )
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ()
-    is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
-    password = models.CharField(verbose_name='Пароль')
-    first_name = models.CharField(verbose_name='Имя', max_length=30)
-    last_name = models.CharField(verbose_name='Фамилия', max_length=30)
-    image = models.ImageField(upload_to='media', null=True, blank=True)
-    number_phone = models.CharField(verbose_name='Номер телефона', max_length=11)
-    birth_date = models.DateField(verbose_name='Дата рождения', null=True, blank=True)
-    role = models.ForeignKey('Role',
-                             on_delete=models.SET_NULL, null=True, blank=True)
+    is_staff = models.BooleanField(default=False)
+    # Поле для записи даты и времени создания пользователя
+    # Есть еще возможность переопределить save метод
+    Cuser = models.DateTimeField(verbose_name="Время создания", auto_now_add=True)
+    Uuser = models.DateTimeField(verbose_name="Время обновления", auto_now=True, null=True, blank=True)
 
-    objects = CustomUserManager()
+    objects = UserManager()
 
-    class Meta:
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['full_name']
 
     def __str__(self):
-        return f'{self.pk} {self.email}'
+        return self.email
 
 
 class Role(models.Model):
@@ -48,78 +69,3 @@ class Role(models.Model):
 
     def __str__(self):
         return self.title
-
-
-class Feedback(models.Model):
-    title = models.CharField(verbose_name='Фидбэк', max_length=50)
-    description = models.TextField(verbose_name='Описание', blank=True, null=True)
-    receivers = models.ManyToManyField(User, related_name='received_feedbacks')
-    user = models.ForeignKey(User,
-                             on_delete=models.CASCADE, related_name='feedbacks')
-
-    class Meta:
-        verbose_name = 'Опрос'
-        verbose_name_plural = 'Опросы'
-
-    def __str__(self):
-        return f'Опрос №{self.pk} {self.title}'
-
-
-class Question(models.Model):
-    title = models.CharField(verbose_name='Вопрос', max_length=50)
-
-    feedback = models.ForeignKey('Feedback',
-                                 on_delete=models.CASCADE)
-    type = models.ForeignKey('QuestionType', on_delete=models.SET_NULL, null=True, blank=True)
-
-    class Meta:
-        verbose_name = 'Вопрос'
-        verbose_name_plural = 'Вопросы'
-
-    def __str__(self):
-        return self.title
-
-
-class QuestionType(models.Model):
-    title = models.CharField(verbose_name='Название типа', max_length=30)
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        verbose_name = 'Тип вопроса'
-        verbose_name_plural = 'Типы вопросов'
-
-
-class Choice(models.Model):
-    question = models.ForeignKey(Question,
-                                 on_delete=models.CASCADE)
-    value = models.TextField()
-
-    def __str__(self):
-        return self.value
-
-
-class DoneFeedback(models.Model):
-    user = models.ForeignKey(User,
-                             on_delete=models.CASCADE)
-    feedback = models.ForeignKey(Feedback,
-                                 on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"Опрос: '{self.feedback.title}' заполнен пользователем {self.user.email}"
-
-
-class Answer(models.Model):
-    done_feedback = models.ForeignKey(DoneFeedback,
-                                      on_delete=models.CASCADE)
-    question = models.ForeignKey(Question,
-                                 on_delete=models.CASCADE)
-    choice = models.ForeignKey(Choice,
-                               on_delete=models.CASCADE,
-                               blank=True, null=True)
-
-    value = models.TextField(blank=True, null=True)
-
-    def __str__(self):
-        return f"Ответ на вопрос {self.question.title} в опросе {self.doneFeedback.feedback.title}"

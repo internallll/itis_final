@@ -1,0 +1,81 @@
+2025-03-27 00:50:43,308 - INFO - models.py - Create user N 2. 1@example.com - This field is required.
+2025-03-27 00:51:10,231 - INFO - models.py - Create user N 3. 2@example.com - This field is required.
+2025-03-27 00:52:11,990 - INFO - views.py - Feedback create
+2025-03-27 00:52:11,990 - INFO - views.py - Open Feedback list
+2025-03-27 01:57:51,316 - INFO - views.py - Feedback create
+2025-03-27 01:57:51,317 - INFO - views.py - Open Feedback list
+2025-03-27 01:57:57,556 - INFO - views.py - Feedback create
+2025-03-27 01:57:57,556 - INFO - views.py - Open Feedback list
+2025-03-27 01:58:02,710 - INFO - views.py - Feedback create
+2025-03-27 01:58:02,710 - INFO - views.py - Open Feedback list
+2025-03-27 01:58:11,434 - INFO - views.py - Feedback create
+2025-03-27 01:58:11,434 - INFO - views.py - Open Feedback list
+2025-03-27 01:58:14,375 - INFO - views.py - Feedback create
+2025-03-27 01:58:14,375 - INFO - views.py - Open Feedback list
+2025-03-27 01:58:18,543 - INFO - views.py - Feedback create
+2025-03-27 01:58:18,543 - INFO - views.py - Open Feedback list
+2025-03-27 01:59:09,588 - INFO - views.py - Feedback create
+2025-03-27 01:59:09,589 - INFO - views.py - Open Feedback list
+2025-03-27 01:59:24,474 - INFO - views.py - Feedback create
+2025-03-27 01:59:24,474 - INFO - views.py - Open Feedback list
+2025-03-27 02:01:15,888 - INFO - views.py - Feedback create
+2025-03-27 02:01:15,888 - INFO - views.py - Open Feedback list
+2025-03-27 02:01:16,449 - INFO - models.py - Create user N 1. ivan@example.com - Иван Иванов
+2025-03-27 02:01:17,537 - INFO - models.py - Create user N 2. ivan@example.com - Иван Иванов
+2025-03-27 02:01:18,535 - INFO - models.py - Create user N 3. ivan@example.com - Иван Иванов
+2025-03-27 02:01:19,525 - INFO - models.py - Create user N 4. ivan@example.com - Иван Иванов
+2025-03-27 02:01:20,024 - INFO - models.py - Create user N 5. ivan@example.com - Иван Иванов
+2025-03-27 02:01:47,261 - INFO - views.py - Feedback create
+2025-03-27 02:01:47,262 - INFO - views.py - Open Feedback list
+2025-03-27 02:01:47,817 - INFO - models.py - Create user N 1. ivan@example.com - Иван Иванов
+2025-03-27 02:01:48,841 - INFO - models.py - Create user N 2. ivan@example.com - Иван Иванов
+2025-03-27 02:01:49,836 - INFO - models.py - Create user N 3. ivan@example.com - Иван Иванов
+2025-03-27 02:01:50,834 - INFO - models.py - Create user N 4. ivan@example.com - Иван Иванов
+2025-03-27 02:01:51,335 - INFO - models.py - Create user N 5. ivan@example.com - Иван Иванов
+2025-03-27 02:02:32,323 - INFO - views.py - Feedback create
+2025-03-27 02:02:32,323 - INFO - views.py - Open Feedback list
+2025-03-27 02:02:32,874 - INFO - models.py - Create user N 1. ivan@example.com - Иван Иванов
+2025-03-27 02:02:33,900 - INFO - models.py - Create user N 2. ivan@example.com - Иван Иванов
+2025-03-27 02:02:34,895 - INFO - models.py - Create user N 3. ivan@example.com - Иван Иванов
+2025-03-27 02:02:35,896 - INFO - models.py - Create user N 4. ivan@example.com - Иван Иванов
+2025-03-27 02:02:36,393 - INFO - models.py - Create user N 5. ivan@example.com - Иван Иванов
+2025-03-27 02:04:27,656 - INFO - views.py - Feedback create
+2025-03-27 02:04:27,656 - INFO - views.py - Open Feedback list
+2025-03-27 02:04:28,208 - INFO - models.py - Create user N 1. ivan@example.com - Иван Иванов
+2025-03-27 02:04:29,251 - INFO - models.py - Create user N 2. ivan@example.com - Иван Иванов
+2025-03-27 02:04:30,253 - INFO - models.py - Create user N 3. ivan@example.com - Иван Иванов
+2025-03-27 02:04:31,252 - INFO - models.py - Create user N 4. ivan@example.com - Иван Иванов
+2025-03-27 02:04:31,748 - INFO - models.py - Create user N 5. ivan@example.com - Иван Иванов
+2025-03-27 02:05:36,934 - INFO - views.py - Feedback create
+2025-03-27 02:05:36,934 - INFO - views.py - Open Feedback list
+2025-03-27 02:05:37,484 - INFO - models.py - Create user N 1. ivan@example.com - Иван Иванов
+2025-03-27 02:05:38,512 - INFO - models.py - Create user N 2. ivan@example.com - Иван Иванов
+2025-03-27 02:05:39,503 - INFO - models.py - Create user N 3. ivan@example.com - Иван Иванов
+2025-03-27 02:05:40,499 - INFO - models.py - Create user N 4. ivan@example.com - Иван Иванов
+2025-03-27 02:05:40,998 - INFO - models.py - Create user N 5. ivan@example.com - Иван Иванов
+2025-03-27 02:07:33,162 - INFO - models.py - Create user N 4. user@example.com - string
+2025-03-27 02:09:32,387 - INFO - models.py - Create user N 5. user1@example.com - string
+2025-03-27 02:11:02,881 - INFO - models.py - Create user N 6. test@example.com - string
+2025-03-27 02:12:24,019 - INFO - views.py - Feedback create
+2025-03-27 02:12:24,019 - INFO - views.py - Open Feedback list
+2025-03-27 02:12:24,595 - INFO - models.py - Create user N 1. ivan@example.com - Иван Иванов
+2025-03-27 02:12:25,726 - INFO - models.py - Create user N 2. ivan@example.com - Иван Иванов
+2025-03-27 02:12:26,727 - INFO - models.py - Create user N 3. ivan@example.com - Иван Иванов
+2025-03-27 02:12:27,717 - INFO - models.py - Create user N 4. ivan@example.com - Иван Иванов
+2025-03-27 02:12:28,219 - INFO - models.py - Create user N 5. ivan@example.com - Иван Иванов
+2025-03-27 02:12:31,093 - INFO - views.py - Feedback create
+2025-03-27 02:12:31,093 - INFO - views.py - Open Feedback list
+2025-03-27 02:12:37,584 - INFO - views.py - Feedback create
+2025-03-27 02:12:37,584 - INFO - views.py - Open Feedback list
+2025-03-27 02:15:53,442 - INFO - views.py - Feedback create
+2025-03-27 02:15:53,442 - INFO - views.py - Open Feedback list
+2025-03-27 02:16:34,604 - INFO - models.py - Create user N 7. user1235@example.com - string
+2025-03-27 02:21:44,097 - INFO - views.py - Feedback create
+2025-03-27 02:21:44,097 - INFO - views.py - Open Feedback list
+2025-03-27 02:22:03,401 - INFO - models.py - Create user N 8. userqrq@example.com - string
+2025-03-27 02:36:56,805 - INFO - views.py - Feedback create
+2025-03-27 02:36:56,805 - INFO - views.py - Open Feedback list
+2025-03-27 02:41:40,065 - INFO - views.py - Feedback create
+2025-03-27 02:41:40,065 - INFO - views.py - Open Feedback list
+2025-03-27 02:43:48,911 - INFO - views.py - Feedback create
+2025-03-27 02:43:48,911 - INFO - views.py - Open Feedback list

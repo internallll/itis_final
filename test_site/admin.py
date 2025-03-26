@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from test_site.models import User, Feedback, Role, Question, QuestionType, Answer, DoneFeedback, Choice
+from feedback.models import Feedback, Question, QuestionType, Answer, DoneFeedback, Choice
+from test_site.models import User, Role
 
 # Register your models here.
 admin.site.register(User)
