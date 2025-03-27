@@ -1,4 +1,41 @@
 Основной Функционал
+
+АВТОРИЗАЦИЯ
+Были использованы такие библиотеки, как 'djoser' и 'simplejwt'
+
+Инструкция:
+    1. POST-запрос на /auth/users/
+        Пример:
+            {  
+              "email": "user@example.com",
+              "password": "12345678Ruslan",
+              "full_name": "Ivan Ivanov"
+            }
+        Пользователь зарегистрирован в системе.
+    2. POST - запрос на auth/jwt/create/
+        Пример:
+            {
+            "email": "user@example.com",
+            "password": "12345678"
+            }
+        Вывод(пример):
+        {
+        "refresh": "eyJhbGciOiJIUzI1NiIsI",
+        "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6"
+        }
+        (Длина уменьшена для удобства)
+        access - токен для входа на сайт, время валидности - 5 минут
+        refresh - токен для обновления access токена, время валидности - 1 день(будет больше)
+
+    3. Access токен используется в дальнейших целях для авторизации
+    Регистрация прошла успешна!
+
+Возможности системы авторизации:
+1. /auth/jwt/refresh/ - API для обновления access токена, использую refresh токен
+2. /auth/jwt/verify/ - API для проверки валидации токена (При верном токене выдает пустой 200 запрос)
+
+
+
 1. Add feedback
 
 /api/feedback/ - POST
@@ -25,7 +62,7 @@
   "question": 4
   }
 
-4. Add done feedback - По моей логике создании записи done Feedback будет происходить при начале заполнении опроса
+4. Add done feedback - По моей логике создании записи done Feedback будет происходить при начале заполнении опроса другим человеком
 
 api/done_feedback/ - POST
 
@@ -98,46 +135,6 @@ api/done_feedback/ - POST
     Основной сайт Swagger`a - /api/schema/swagger-ui/
     Redoc - /api/schema/redoc
     Скачать схему - /api/schema/
-
-
-АВТОРИЗАЦИЯ
-Были использованы такие библиотеки, как 'djoser' и 'simplejwt'
-
-Инструкция:
-    1. POST-запрос на /auth/users/
-        Пример:
-            {  "is_superuser": true,
-              "email": "user@example.com",
-              "password": "12345678",
-              "first_name": "string",
-              "last_name": "string",
-              "number_phone": "string",
-              "birth_date": "2025-02-28",
-              "role": 1
-            }
-        Пользователь зарегистрирован в системе.
-    2. POST - запрос на auth/jwt/create/
-        Пример:
-            {
-            "email": "user@example.com",
-            "password": "12345678"
-            }
-        Вывод(пример):
-        {
-        "refresh": "eyJhbGciOiJIUzI1NiIsI",
-        "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6"
-        }
-        (Длина уменьшена для удобства)
-        access - токен для входа на сайт, время валидности - 5 минут
-        refresh - токен для обновления access токена, время валидности - 1 день(будет больше)
-
-    3. Access токен используется в дальнейших целях для авторизации
-    Регистрация прошла успешна!
-
-Возможности системы авторизации:
-1. /auth/jwt/refresh/ - API для обновления access токена, использую refresh токен
-2. /auth/jwt/verify/ - API для проверки валидации токена (При верном токене выдает пустой 200 запрос)
-
 
 
 ЛОГИРОВАНИЕ
